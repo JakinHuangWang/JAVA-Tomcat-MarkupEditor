@@ -5,27 +5,39 @@
     <title>Edit Post</title>
 </head>
 <style>
+    * {
+        font-family: "Segoe UI";
+    }
     .container {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 50%;
     }
     .spacing {
         margin: 10px auto;
+    }
+    .button-row {
+        display: flex;
+        justify-content: space-between;
     }
     .section {
         display: flex;
         flex-direction: column;
     }
+
+    button {
+        border: none;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    }
 </style>
 <body>
     <div class="container">
-        <h1>Edit Post</h1>
-        <h1>${username}</h1>
-        <h1>${postid}</h1>
-        <h1>${Warning}</h1>
+        <h2>Edit Post</h2>
         <form method="POST">
-            <div class="spacing">
+            <div class="spacing button-row">
                 <button type="submit" formaction="${path}?action=save">Save</button>
                 <button type="submit" formaction="${path}?action=list">Close</button>
                 <button type="submit" formaction="${path}?action=preview">Preview</button>

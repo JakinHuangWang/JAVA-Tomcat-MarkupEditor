@@ -5,6 +5,9 @@
     <title>Preview Post</title>
 </head>
 <style>
+    * {
+        font-family: "Segoe UI";
+    }
     .container {
         display: flex;
         flex-direction: column;
@@ -20,9 +23,8 @@
 </style>
 <body>
     <div class="container">
-        <h1>${path}</h1>
-        <h1>Preview Post</h1>
-        <p>Text Body</p>
+        <a href="javascript:history.back()">Close Preview</a>
+        <div>${body}</div>
     </div>
 </body>
 </html>

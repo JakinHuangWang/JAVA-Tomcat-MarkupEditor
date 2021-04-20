@@ -156,6 +156,7 @@ public class Editor extends HttpServlet {
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         int postid;
+        Date d = new Date();
 
         try {
             /* create an instance of a Connection object */
@@ -178,11 +179,12 @@ public class Editor extends HttpServlet {
                         postid = rs.getInt("MAX") + 1;
                     }
 
-                    pstmt = c.prepareStatement("INSERT INTO Posts (username, postid, title, body) VALUES (?, ?, ?, ?)");
+                    pstmt = c.prepareStatement("INSERT INTO Posts (username, postid, title, body, created) VALUES (?, ?, ?, ?, ?)");
                     pstmt.setString(1, username);
                     pstmt.setInt(2, postid);
                     pstmt.setString(3, title);
                     pstmt.setString(4, body);
+                    pstmt.setTimestamp(5, new Timestamp(d.getTime()));
                     pstmt.executeUpdate();
                     response.setStatus(200);
                 } else if (postid > 0) {
@@ -195,9 +197,10 @@ public class Editor extends HttpServlet {
                         request.setAttribute("Warning", "No Exist");
                         response.setStatus(404);
                     } else {
-                        Date d = new Date();
+                        Timestamp ts;
                         request.setAttribute("Warning", new java.sql.Date(d.getTime()));
                         username = rs.getString("username");
+
                         postid = rs.getInt("postid");
                         pstmt = c.prepareStatement("UPDATE Posts SET title = ?, body = ?, modified = ? WHERE (username, postid) = (?, ?)");
                         pstmt.setString(1, title);
@@ -210,6 +213,29 @@ public class Editor extends HttpServlet {
                     }
                 }
 
+            } else if (action.equals("preview")) {
+                postid = Integer.parseInt(request.getParameter("postid"));
+                username = request.getParameter("username");
+                title = request.getParameter("title");
+                body = request.getParameter("body");
+                Parser parser = Parser.builder().build();
+                HtmlRenderer renderer = HtmlRenderer.builder().build();
+                String html = renderer.render(parser.parse(body));
+                request.setAttribute("username", username);
+                request.setAttribute("postid", postid);
+                request.setAttribute("title", title);
+                request.setAttribute("body", html);
+                request.setAttribute("path", request.getRequestURL().toString());
+                request.getRequestDispatcher("/preview.jsp").forward(request, response);
+            } else if (action.equals("delete")) {
+                postid = Integer.parseInt(request.getParameter("postid"));
+                username = request.getParameter("username");
+                pstmt = c.prepareStatement("DELETE FROM Posts WHERE (username, postid) = (?, ?)");
+                pstmt.setString(1, username);
+                pstmt.setInt(2, postid);
+                pstmt.executeUpdate();
+                request.setAttribute("path", request.getRequestURL().toString());
+                request.getRequestDispatcher("/delete.jsp").forward(request, response);
             } else {
                 response.setStatus(404);
             }

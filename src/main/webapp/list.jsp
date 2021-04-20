@@ -5,6 +5,9 @@
     <title>Preview Post</title>
 </head>
 <style>
+    * {
+        font-family: "Segoe UI";
+    }
     .container {
         display: flex;
         flex-direction: column;
@@ -17,22 +20,71 @@
         display: flex;
         flex-direction: column;
     }
+
+    a {
+        width: fit-content;
+        text-decoration: none;
+        padding: 3px 5px;
+        border-radius: 3px;
+        color: white;
+        margin: 6px auto;
+    }
+
+    .open {
+        background-color: forestgreen;
+        border: 1px solid forestgreen;
+    }
+
+    .open:hover {
+        color: forestgreen;
+        background-color: white;
+    }
+
+    .delete {
+        background-color: darkred;
+        border: 1px solid darkred;
+    }
+
+    .delete:hover {
+        color: darkred;
+        background-color: white;
+    }
+
+    td {
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 80%;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 <body>
-    <div class="container">
-        <h1>${path}</h1>
-        <h1>List Post</h1>
-        <table border="1" style="border-collapse: collapse">
+    <divs class="container">
+        <h2>List Post</h2>
+        <table>
+            <tr>
+                <th>username</th>
+                <th>title</th>
+                <th>created</th>
+                <th>modified</th>
+            </tr>
             <c:forEach  var = "row" items = "${result.rows}">
                 <tr>
                     <td><c:out value = "${row.username}" /></td>
-                    <td><c:out value = "${row.postid}" /></td>
                     <td><c:out value = "${row.title}" /></td>
-                    <td><c:out value = "${row.body}" /></td>
+                    <td><c:out value = "${row.created}" /></td>
                     <td><c:out value = "${row.modified}" /></td>
+                    <td>
+                        <div class="section">
+                            <a class="open" href="${path}?action=open&username=${row.username}&postid=${row.postid}">Open</a>
+                            <a class="delete" href="${path}?action=delete&username=${row.username}&postid=${row.postid}">Delete</a>
+                        </div>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
-    </div>
+    </divs>
 </body>
 </html>
