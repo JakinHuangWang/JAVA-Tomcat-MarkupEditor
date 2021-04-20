@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Preview Post</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <style>
-    * {
-        font-family: "Segoe UI";
-    }
     .container {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .spacing {
-        margin: 10px auto;
-    }
+
     .section {
         display: flex;
         flex-direction: column;
@@ -24,45 +20,49 @@
     a {
         width: fit-content;
         text-decoration: none;
-        padding: 3px 5px;
-        border-radius: 3px;
+        padding: 2px 10px;
+        border-radius: 14px;
         color: white;
         margin: 6px auto;
     }
 
     .open {
-        background-color: forestgreen;
-        border: 1px solid forestgreen;
+        background-color: #46d246;
+        border: 1px solid #46d246;
     }
 
     .open:hover {
-        color: forestgreen;
+        color: #46d246;
         background-color: white;
     }
 
     .delete {
-        background-color: darkred;
-        border: 1px solid darkred;
+        background-color: #ff6666;
+        border: 1px solid #ff6666;
     }
 
     .delete:hover {
-        color: darkred;
+        color: #ff6666;
         background-color: white;
     }
 
     td {
-        padding: 10px;
+        text-align: center;
     }
 
     table {
         border-collapse: collapse;
         width: 80%;
     }
+
+    th {
+        padding: 20px;
+    }
     tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 <body>
-    <divs class="container">
-        <h2>List Post</h2>
+    <div class="container">
+        <button style="margin: 20px 0;" onclick="location.href='${path}?action=open&username=${username}&postid=0'">New Post</button>
         <table>
             <tr>
                 <th>username</th>
@@ -85,6 +85,6 @@
                 </tr>
             </c:forEach>
         </table>
-    </divs>
+    </div>
 </body>
 </html>

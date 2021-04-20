@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Post</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <style>
-    * {
-        font-family: "Segoe UI";
+    h2 {
+        text-align: center;
     }
     .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 50%;
+        width: 40%;
+        margin: auto;
     }
     .spacing {
-        margin: 10px auto;
+        margin: 20px auto;
     }
     .button-row {
         display: flex;
@@ -26,12 +25,26 @@
         flex-direction: column;
     }
 
-    button {
-        border: none;
-        background-color: white;
-        border-radius: 50%;
-        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    input {
+        border-radius: 4px;
+        border: 1px solid lightgray;
     }
+
+    input:focus {
+        box-shadow: 0 0 0 0.125em #46d246;
+    }
+
+    textarea {
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid lightgray;
+        padding: 5px;
+    }
+
+    textarea:focus {
+        box-shadow: 0 0 0 0.125em #46d246;
+    }
+
 </style>
 <body>
     <div class="container">
@@ -39,19 +52,19 @@
         <form method="POST">
             <div class="spacing button-row">
                 <button type="submit" formaction="${path}?action=save">Save</button>
-                <button type="submit" formaction="${path}?action=list">Close</button>
+                <button type="submit" formaction="${path}?action=list&username=${username}">Close</button>
                 <button type="submit" formaction="${path}?action=preview">Preview</button>
-                <button type="submit" formaction="${path}?action=delete">Delete</button>
+                <button type="submit" formaction="${path}?action=delete&username=${username}&postid=${postid}">Delete</button>
             </div>
             <input type="hidden" id="postid" name="postid" value="${postid}">
             <input type="hidden" id="username" name="username" value="${username}">
             <div class="spacing section">
                 <label for="title">Title</label>
-                <input type="text" id="title" name="title" value="${title}">
+                <input type="text" id="title" name="title" value="${title}" required>
             </div>
             <div class="spacing section">
                 <label for="body">Body</label>
-                <textarea style="height: 20rem;" name="body" id="body">${body}</textarea>
+                <textarea style="height: 20rem;" name="body" id="body" required>${body}</textarea>
             </div>
         </form>
     </div>

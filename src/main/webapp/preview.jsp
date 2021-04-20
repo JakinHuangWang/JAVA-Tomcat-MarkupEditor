@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Preview Post</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <style>
-    * {
-        font-family: "Segoe UI";
-    }
     .container {
         display: flex;
         flex-direction: column;
