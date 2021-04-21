@@ -60,11 +60,11 @@
             <input type="hidden" id="username" name="username" value="${username}">
             <div class="spacing section">
                 <label for="title">Title</label>
-                <input type="text" id="title" name="title" value="${title}" required>
+                <input type="text" id="title" name="title" value="${title}">
             </div>
             <div class="spacing section">
                 <label for="body">Body</label>
-                <textarea style="height: 20rem;" name="body" id="body" required>${body}</textarea>
+                <textarea style="height: 20rem;" name="body" id="body">${body}</textarea>
             </div>
         </form>
     </div>

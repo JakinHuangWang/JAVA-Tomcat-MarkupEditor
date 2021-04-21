@@ -10,18 +10,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-    .spacing {
-        margin: 10px auto;
-    }
-    .section {
-        display: flex;
-        flex-direction: column;
+        margin-top: 5%;
     }
 </style>
 <body>
     <div class="container">
-        <a href="javascript:history.back()">Close Preview</a>
+        <button onclick="location.href = 'javascript:history.back()'">Close Preview</button>
+        <h1>${title}</h1>
         <div>${body}</div>
     </div>
 </body>

@@ -61,7 +61,7 @@ fi
 #    error_exit "Following lines are invalid in group.txt\n${NON_UID}\nInclude one 9-digit UID per line. No spaces or dashes, please."
 #fi
 #
-zip ${ZIP_FILE} -x p2_package \*.class \*.war .gradle/\* build/\* .DS_Store @ -r .
+zip ${ZIP_FILE} -x p2_package .git/\* .idea/\* \*.class \*.war .gradle/\* build/\* .DS_Store @ -r .
 if [ $? -ne 0 ]; then
     error_exit "Create ${ZIP_FILE} failed, check for error messages in console."
 fi
