@@ -66,13 +66,23 @@ public class Editor extends HttpServlet {
             c = DriverManager.getConnection("jdbc:mariadb://localhost:3306/CS144", "cs144", "");
 
             if (action.equals("open")) {
+                // Check Integer format and Convert
+                try {
+                    postid = Integer.parseInt(request.getParameter("postid"));
+                } catch (NumberFormatException e) {
+                    response.setStatus(400);
+                    return;
+                } catch (NullPointerException e) {
+                    response.setStatus(400);
+                    return;
+                }
+
                 username = request.getParameter("username");
-                postid = Integer.parseInt(request.getParameter("postid"));
                 title = request.getParameter("title");
                 body = request.getParameter("body");
                 pstmt = c.prepareStatement("SELECT * FROM Posts WHERE username = ? and postid = ?;");
 
-                if (username == null) {
+                if (username == null || postid == null) {
                     response.setStatus(404);
                     return;
                 }
@@ -162,18 +172,25 @@ public class Editor extends HttpServlet {
             c = DriverManager.getConnection("jdbc:mariadb://localhost:3306/CS144", "cs144", "");
 
             if (action.equals("save")) {
-
-                if (request.getParameter("postid") != null) {
+                // Check Integer format and Convert
+                try {
                     postid = Integer.parseInt(request.getParameter("postid"));
+                } catch (NumberFormatException e) {
+                    response.setStatus(400);
+                    return;
+                } catch (NullPointerException e) {
+                    response.setStatus(400);
+                    return;
                 }
+
                 username = request.getParameter("username");
                 title = request.getParameter("title");
                 body = request.getParameter("body");
                 request.setAttribute("username", username);
                 request.setAttribute("postid", postid);
 
-                if (username == null || postid == null || title == null || body == null) {
-                    response.setStatus(404);
+                if (username == null || title == null || body == null) {
+                    response.setStatus(400);
                     return;
                 } else if (postid == 0) {
                     pstmt = c.prepareStatement("SELECT IFNULL(MAX(postid), 0) AS MAX FROM Posts WHERE username = ?");
@@ -223,9 +240,17 @@ public class Editor extends HttpServlet {
                     }
                 }
             } else if (action.equals("preview")) {
-                if (request.getParameter("postid") != null) {
+                // Check Integer format and Convert
+                try {
                     postid = Integer.parseInt(request.getParameter("postid"));
+                } catch (NumberFormatException e) {
+                    response.setStatus(400);
+                    return;
+                } catch (NullPointerException e) {
+                    response.setStatus(400);
+                    return;
                 }
+
                 username = request.getParameter("username");
                 title = request.getParameter("title");
                 body = request.getParameter("body");
@@ -233,8 +258,9 @@ public class Editor extends HttpServlet {
                 Parser parser = Parser.builder().build();
                 HtmlRenderer renderer = HtmlRenderer.builder().build();
 
-                if (username == null || postid == null || title == null  || body == null) {
-                    response.setStatus(404);
+                if (username == null || title == null  || body == null) {
+                    response.setStatus(400);
+                    return;
                 } else {
                     title = renderer.render(parser.parse(title));
                     html = renderer.render(parser.parse(body));
@@ -244,8 +270,23 @@ public class Editor extends HttpServlet {
                 }
                 request.getRequestDispatcher("/preview.jsp").forward(request, response);
             } else if (action.equals("delete")) {
-                postid = Integer.parseInt(request.getParameter("postid"));
+                // Check Integer format and Convert
+                try {
+                    postid = Integer.parseInt(request.getParameter("postid"));
+                } catch (NumberFormatException e) {
+                    response.setStatus(400);
+                    return;
+                } catch (NullPointerException e) {
+                    response.setStatus(400);
+                    return;
+                }
+
                 username = request.getParameter("username");
+                if (username == null) {
+                    response.setStatus(400);
+                    return;
+                }
+
                 pstmt = c.prepareStatement("SELECT * FROM Posts WHERE (username, postid) = (?, ?)");
                 pstmt.setString(1, username);
                 pstmt.setInt(2, postid);
@@ -253,6 +294,7 @@ public class Editor extends HttpServlet {
 
                 if (!rs.next()) {
                     response.setStatus(404);
+                    return;
                 } else {
                     rs.beforeFirst();
                     pstmt = c.prepareStatement("DELETE FROM Posts WHERE (username, postid) = (?, ?)");
@@ -272,6 +314,7 @@ public class Editor extends HttpServlet {
 
                 if (!rs.next()) {
                     response.setStatus(404);
+                    return;
                 } else {
                     rs.beforeFirst();
                     Result result = ResultSupport.toResult(rs);
